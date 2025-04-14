@@ -1,9 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
   const repoList = document.getElementById('repo-list');
   const repoContent = document.getElementById('repo-content');
-  
-  const clickDelay = 300;
-  let clickTimeout;
+  const backButton = document.getElementById('back-button');
+  const forwardButton = document.getElementById('forward-button');
+
+  let currentPath = '';
+  let historyStack = [];
+  let forwardStack = [];
 
   fetch('https://api.github.com/users/FiverrrVRC/repos')
     .then(response => response.json())
@@ -14,20 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const repoLink = document.createElement('div');
         repoLink.className = 'repo-item';
         repoLink.textContent = repo.name;
-        repoLink.dataset.repoName = repo.name;
 
-        repoLink.addEventListener('click', () => {
-          clearTimeout(clickTimeout);
-          clickTimeout = setTimeout(() => {
-            loadRepoFiles(repo.name);
-            repoContent.style.display = 'block';
-          }, clickDelay);
-        });
-
-        repoLink.addEventListener('dblclick', () => {
-          clearTimeout(clickTimeout);
-          window.open(repo.html_url, '_blank');
-        });
+        repoLink.addEventListener('click', () => loadRepoFiles(repo.name));
 
         repoList.appendChild(repoLink);
       });
@@ -38,6 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
   function loadRepoFiles(repoName, path = '') {
+    currentPath = path;
+    forwardStack = [];
+    historyStack.push(path);
+    updateNavButtons();
+
     repoContent.innerHTML = '<h3>Loading files...</h3>';
 
     fetch(`https://api.github.com/repos/FiverrrVRC/${repoName}/contents/${path}`)
@@ -66,6 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
           if (file.type === 'dir') {
             fileItem.addEventListener('click', () => loadRepoFiles(repoName, file.path));
+          } else {
+            fileItem.addEventListener('click', () => downloadFile(file.download_url, file.name));
           }
 
           repoContent.appendChild(fileItem);
@@ -76,4 +74,33 @@ document.addEventListener('DOMContentLoaded', () => {
         repoContent.textContent = 'Failed to load files.';
       });
   }
+
+  function downloadFile(url, filename) {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.click();
+  }
+
+  function updateNavButtons() {
+    backButton.disabled = historyStack.length === 0;
+    forwardButton.disabled = forwardStack.length === 0;
+  }
+
+  backButton.addEventListener('click', () => {
+    if (historyStack.length > 1) {
+      forwardStack.push(historyStack.pop());
+      const previousPath = historyStack[historyStack.length - 1];
+      loadRepoFiles('FiverrrVRC', previousPath);
+    }
+    updateNavButtons();
+  });
+
+  forwardButton.addEventListener('click', () => {
+    if (forwardStack.length > 0) {
+      const nextPath = forwardStack.pop();
+      loadRepoFiles('FiverrrVRC', nextPath);
+    }
+    updateNavButtons();
+  });
 });
