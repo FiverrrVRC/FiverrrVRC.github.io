@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+=document.addEventListener('DOMContentLoaded', () => {
   const repoList = document.getElementById('repo-list');
 
   fetch('https://api.github.com/users/FiverrrVRC/repos')
