@@ -12,10 +12,26 @@ document.addEventListener('DOMContentLoaded', () => {
       repos.forEach(repo => {
         const repoLink = document.createElement('div');
         repoLink.className = 'repo-item';
-        repoLink.textContent = repo.name;
+        
+        // Create the repository name element
+        const repoName = document.createElement('span');
+        repoName.textContent = repo.name;
+
+        // Create the button to open the repo
+        const openButton = document.createElement('button');
+        openButton.textContent = 'Open Repo';
+        openButton.className = 'repo-button';
+        openButton.addEventListener('click', (e) => {
+          e.stopPropagation(); // Prevent triggering the click for loading files
+          window.open(repo.html_url, '_blank');
+        });
 
         // Add event listener to load files when a repo is clicked
         repoLink.addEventListener('click', () => loadRepoFiles(repo.name));
+
+        // Append name and button to the repo item
+        repoLink.appendChild(repoName);
+        repoLink.appendChild(openButton);
 
         repoList.appendChild(repoLink);
       });
