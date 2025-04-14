@@ -2,8 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const repoList = document.getElementById('repo-list');
   const repoContent = document.getElementById('repo-content');
   
-  // Set a timeout delay for single click
-  const clickDelay = 300; // 300ms for detecting single vs double click
+  // Set a timeout delay for detecting double-click
+  const clickDelay = 300; // 300ms for detecting double-click
   let clickTimeout;
 
   // Fetch and display repositories from GitHub
@@ -18,19 +18,19 @@ document.addEventListener('DOMContentLoaded', () => {
         repoLink.textContent = repo.name;
         repoLink.dataset.repoName = repo.name;
 
-        // Handle single click: Open GitHub repo page
+        // Handle single click: Open repo in the explorer
         repoLink.addEventListener('click', () => {
           clearTimeout(clickTimeout); // Clear any existing double-click timeout
           clickTimeout = setTimeout(() => {
-            window.open(repo.html_url, '_blank');
-          }, clickDelay); // Delay the opening of GitHub link to differentiate from double-click
+            loadRepoFiles(repo.name);
+            repoContent.style.display = 'block';  // Show the content pane
+          }, clickDelay); // Delay the action to detect single click
         });
 
-        // Handle double-click: Open repo in the explorer pane
+        // Handle double-click: Open repo page on GitHub
         repoLink.addEventListener('dblclick', () => {
           clearTimeout(clickTimeout); // Clear the single-click timeout
-          loadRepoFiles(repo.name);
-          repoContent.style.display = 'block';  // Show the content pane
+          window.open(repo.html_url, '_blank'); // Open the GitHub repo page
         });
 
         repoList.appendChild(repoLink);
