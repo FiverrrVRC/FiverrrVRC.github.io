@@ -13,6 +13,8 @@ header, footer {
 }
 
 main {
+  display: flex;
+  justify-content: space-between;
   padding: 2rem;
 }
 
@@ -21,16 +23,16 @@ main {
   border: 1px solid #333;
   border-radius: 8px;
   padding: 1rem;
-  max-width: 600px;
-  margin: 0 auto;
-  box-shadow: 0 0 10px #00000033;
+  width: 45%;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
-.repo-item {
+.repo-item, .file-item {
   display: flex;
   align-items: center;
   padding: 0.75rem 1rem;
-  margin-bottom: 1rem; /* Add margin for spacing between repo items */
+  margin-bottom: 0.5rem;
   background-color: #222;
   border-radius: 4px;
   text-decoration: none;
@@ -38,38 +40,16 @@ main {
   transition: background-color 0.3s, color 0.3s;
 }
 
-.repo-item:hover {
+.repo-item:hover, .file-item:hover {
   background-color: #2a2a2a;
   color: #00bcd4;
 }
 
-.repo-icon {
+.file-icon {
   margin-right: 0.75rem;
-  font-size: 1.5rem; /* Adjust icon size */
 }
 
 footer p {
   color: #bbb;
   margin: 0;
-}
-
-footer {
-  margin-top: 2rem; /* Space between footer and content */
-}
-
-h1 {
-  font-size: 2rem;
-  margin: 0;
-  color: #fff;
-}
-
-a {
-  text-decoration: none; /* Prevent links from being underlined */
-}
-
-/* Loading Message */
-#repo-list p {
-  color: #bbb;
-  text-align: center;
-  font-size: 1.2rem;
 }
