@@ -40,13 +40,13 @@
           repoList.innerHTML = ''; // Clear the repository list
 
           repos.forEach(repo => {
-            const repoLink = document.createElement('div');
-            repoLink.className = 'repo-item';
-            repoLink.textContent = repo.name;
+            const repoItem = document.createElement('div');
+            repoItem.className = 'repo-item';
+            repoItem.textContent = repo.name;
             
             // Add event listener to load files when a repo is clicked
-            repoLink.addEventListener('click', () => loadRepoFiles(repo.name));
-            repoList.appendChild(repoLink);
+            repoItem.addEventListener('click', () => loadRepoFiles(repo.name));
+            repoList.appendChild(repoItem);
           });
         })
         .catch(error => {
