@@ -2,6 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const repoList = document.getElementById('repo-list');
   const repoContent = document.getElementById('repo-content');
 
+  // Initially hide the explorer pane
+  repoContent.style.display = 'none';
+
   // Fetch and display repositories from GitHub
   fetch('https://api.github.com/users/FiverrrVRC/repos')
     .then(response => response.json())
@@ -22,8 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
           window.open(repo.html_url, '_blank'); // Opens GitHub repo page
         });
 
-        // Add event listener for double click (opens repo in the explorer pane)
-        repoLink.addEventListener('dblclick', () => {
+        // Add event listener for right-click (opens repo in the explorer pane)
+        repoLink.addEventListener('contextmenu', (event) => {
+          event.preventDefault(); // Prevent the default right-click menu
           loadRepoFiles(repo.name);
           repoContent.style.display = 'block'; // Show the file explorer pane
         });
