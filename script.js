@@ -1,23 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
   const repoList = document.getElementById('repo-list');
-  const repoContent = document.getElementById('repo-content');
 
-  // Fetch and display repositories from GitHub
   fetch('https://api.github.com/users/FiverrrVRC/repos')
     .then(response => response.json())
     .then(repos => {
-      // Ensure repoList is cleared before adding repositories
-      repoList.innerHTML = ''; // Clear the repository list
-
+      const repoNames = new Set(); // Prevent duplicates
       repos.forEach(repo => {
-        const repoLink = document.createElement('a');
-        repoLink.href = '#';
-        repoLink.className = 'repo-item';
-        repoLink.textContent = repo.name;
-        
-        // Add event listener to load files when a repo is clicked
-        repoLink.addEventListener('click', () => loadRepoFiles(repo.name));
-        repoList.appendChild(repoLink);
+        if (repoNames.has(repo.name)) return;
+        repoNames.add(repo.name);
+
+        const repoItem = document.createElement('div');
+        repoItem.className = 'repo-item';
+        repoItem.textContent = repo.name;
+        repoItem.dataset.repo = repo.name;
+        repoItem.addEventListener('click', () => toggleRepoContents(repoItem));
+        repoList.appendChild(repoItem);
       });
     })
     .catch(error => {
@@ -25,47 +22,65 @@ document.addEventListener('DOMContentLoaded', () => {
       repoList.textContent = 'Failed to load repositories.';
     });
 
-  // Load files and directories for the selected repository
-  function loadRepoFiles(repoName, path = '') {
-    // Clear the repo content section when navigating to a new repo/folder
-    repoContent.innerHTML = '<h3>Loading files...</h3>';
+  function toggleRepoContents(repoItem) {
+    const existing = repoItem.nextElementSibling;
+    if (existing && existing.classList.contains('file-list')) {
+      existing.remove();
+      return;
+    }
 
-    fetch(`https://api.github.com/repos/FiverrrVRC/${repoName}/contents/${path}`)
+    const repoName = repoItem.dataset.repo;
+
+    fetch(`https://api.github.com/repos/FiverrrVRC/${repoName}/contents`)
       .then(response => response.json())
       .then(files => {
-        repoContent.innerHTML = ''; // Clear loading message
+        const fileList = document.createElement('div');
+        fileList.className = 'file-list';
 
         files.forEach(file => {
           const fileItem = document.createElement('div');
           fileItem.className = 'file-item';
-          
-          const icon = document.createElement('span');
-          icon.className = 'file-icon';
-
-          // Use icons based on file type (directory or file)
+          fileItem.textContent = (file.type === 'dir' ? '📁 ' : '📄 ') + file.name;
           if (file.type === 'dir') {
-            icon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M10 2v5H5v15h14V7h-5V2H10zm2 0h4v5h-4V2z"/></svg>`;
-          } else {
-            icon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-4-6z"/></svg>`;
+            fileItem.addEventListener('click', (e) => {
+              e.stopPropagation();
+              toggleFolderContents(fileItem, repoName, file.path);
+            });
           }
-
-          const fileName = document.createElement('span');
-          fileName.textContent = file.name;
-
-          fileItem.appendChild(icon);
-          fileItem.appendChild(fileName);
-
-          // If it's a directory, allow for folder navigation
-          if (file.type === 'dir') {
-            fileItem.addEventListener('click', () => loadRepoFiles(repoName, file.path));
-          }
-
-          repoContent.appendChild(fileItem);
+          fileList.appendChild(fileItem);
         });
-      })
-      .catch(error => {
-        console.error('Error fetching files:', error);
-        repoContent.textContent = 'Failed to load files.';
+
+        repoItem.insertAdjacentElement('afterend', fileList);
+      });
+  }
+
+  function toggleFolderContents(fileItem, repoName, path) {
+    const existing = fileItem.nextElementSibling;
+    if (existing && existing.classList.contains('file-list')) {
+      existing.remove();
+      return;
+    }
+
+    fetch(`https://api.github.com/repos/FiverrrVRC/${repoName}/contents/${path}`)
+      .then(response => response.json())
+      .then(files => {
+        const nestedList = document.createElement('div');
+        nestedList.className = 'file-list';
+
+        files.forEach(file => {
+          const nestedItem = document.createElement('div');
+          nestedItem.className = 'file-item';
+          nestedItem.textContent = (file.type === 'dir' ? '📁 ' : '📄 ') + file.name;
+          if (file.type === 'dir') {
+            nestedItem.addEventListener('click', (e) => {
+              e.stopPropagation();
+              toggleFolderContents(nestedItem, repoName, file.path);
+            });
+          }
+          nestedList.appendChild(nestedItem);
+        });
+
+        fileItem.insertAdjacentElement('afterend', nestedList);
       });
   }
 });
