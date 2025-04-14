@@ -1,6 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
   const repoList = document.getElementById('repo-list');
   const repoContent = document.getElementById('repo-content');
+  
+  // Set a timeout delay for single click
+  const clickDelay = 300; // 300ms for detecting single vs double click
+  let clickTimeout;
 
   // Fetch and display repositories from GitHub
   fetch('https://api.github.com/users/FiverrrVRC/repos')
@@ -14,13 +18,17 @@ document.addEventListener('DOMContentLoaded', () => {
         repoLink.textContent = repo.name;
         repoLink.dataset.repoName = repo.name;
 
-        // Open GitHub repo on single click
+        // Handle single click: Open GitHub repo page
         repoLink.addEventListener('click', () => {
-          window.open(repo.html_url, '_blank');
+          clearTimeout(clickTimeout); // Clear any existing double-click timeout
+          clickTimeout = setTimeout(() => {
+            window.open(repo.html_url, '_blank');
+          }, clickDelay); // Delay the opening of GitHub link to differentiate from double-click
         });
 
-        // Open repo contents on double-click
+        // Handle double-click: Open repo in the explorer pane
         repoLink.addEventListener('dblclick', () => {
+          clearTimeout(clickTimeout); // Clear the single-click timeout
           loadRepoFiles(repo.name);
           repoContent.style.display = 'block';  // Show the content pane
         });
