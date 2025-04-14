@@ -1,5 +1,5 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #121212;
   color: #ffffff;
   margin: 0;
@@ -12,22 +12,38 @@ header, footer {
   padding: 1rem;
 }
 
+main {
+  padding: 2rem;
+}
+
 .file-explorer {
-  display: flex;
-  flex-direction: column;
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
   padding: 1rem;
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow: 0 0 10px #00000033;
 }
 
 .repo-item {
-  background-color: #1e1e1e;
-  margin: 0.5rem 0;
-  padding: 1rem;
-  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  background-color: #222;
+  border-radius: 4px;
   text-decoration: none;
-  color: #ffffff;
-  transition: background-color 0.3s;
+  color: #ddd;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .repo-item:hover {
   background-color: #2a2a2a;
+  color: #00bcd4;
+}
+
+.repo-icon {
+  margin-right: 0.75rem;
+  font-size: 1.2rem;
 }

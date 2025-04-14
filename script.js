@@ -9,7 +9,16 @@ document.addEventListener('DOMContentLoaded', () => {
         repoLink.href = repo.html_url;
         repoLink.target = '_blank';
         repoLink.className = 'repo-item';
-        repoLink.textContent = repo.name;
+
+        const icon = document.createElement('span');
+        icon.className = 'repo-icon';
+        icon.textContent = '📁';
+
+        const text = document.createElement('span');
+        text.textContent = repo.name;
+
+        repoLink.appendChild(icon);
+        repoLink.appendChild(text);
         repoList.appendChild(repoLink);
       });
     })
