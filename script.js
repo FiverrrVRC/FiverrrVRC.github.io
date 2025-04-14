@@ -12,26 +12,24 @@ document.addEventListener('DOMContentLoaded', () => {
       repos.forEach(repo => {
         const repoLink = document.createElement('div');
         repoLink.className = 'repo-item';
-        
+
         // Create the repository name element
         const repoName = document.createElement('span');
         repoName.textContent = repo.name;
 
-        // Create the button to open the repo
-        const openButton = document.createElement('button');
-        openButton.textContent = 'Open Repo';
-        openButton.className = 'repo-button';
-        openButton.addEventListener('click', (e) => {
-          e.stopPropagation(); // Prevent triggering the click for loading files
-          window.open(repo.html_url, '_blank');
+        // Add event listener for single click (opens repo on GitHub)
+        repoLink.addEventListener('click', () => {
+          window.open(repo.html_url, '_blank'); // Opens GitHub repo page
         });
 
-        // Add event listener to load files when a repo is clicked
-        repoLink.addEventListener('click', () => loadRepoFiles(repo.name));
+        // Add event listener for double click (opens repo in the explorer pane)
+        repoLink.addEventListener('dblclick', () => {
+          loadRepoFiles(repo.name);
+          repoContent.style.display = 'block'; // Show the file explorer pane
+        });
 
-        // Append name and button to the repo item
+        // Append the repo name to the repo item
         repoLink.appendChild(repoName);
-        repoLink.appendChild(openButton);
 
         repoList.appendChild(repoLink);
       });
@@ -74,6 +72,9 @@ document.addEventListener('DOMContentLoaded', () => {
           // If it's a directory, allow for folder navigation
           if (file.type === 'dir') {
             fileItem.addEventListener('click', () => loadRepoFiles(repoName, file.path));
+          } else {
+            // If it's a file, trigger a download when clicked
+            fileItem.addEventListener('click', () => downloadFile(file.download_url, file.name));
           }
 
           repoContent.appendChild(fileItem);
@@ -83,5 +84,13 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Error fetching files:', error);
         repoContent.textContent = 'Failed to load files.';
       });
+  }
+
+  // Function to download the file
+  function downloadFile(fileUrl, fileName) {
+    const link = document.createElement('a');
+    link.href = fileUrl;
+    link.download = fileName; // Set the download filename
+    link.click();
   }
 });
