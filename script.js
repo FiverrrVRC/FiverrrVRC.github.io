@@ -2,38 +2,28 @@ document.addEventListener('DOMContentLoaded', () => {
   const repoList = document.getElementById('repo-list');
   const repoContent = document.getElementById('repo-content');
 
-  // Initially hide the explorer pane
-  repoContent.style.display = 'none';
-
   // Fetch and display repositories from GitHub
   fetch('https://api.github.com/users/FiverrrVRC/repos')
     .then(response => response.json())
     .then(repos => {
-      // Ensure repoList is cleared before adding repositories
       repoList.innerHTML = ''; // Clear the repository list
 
       repos.forEach(repo => {
         const repoLink = document.createElement('div');
         repoLink.className = 'repo-item';
+        repoLink.textContent = repo.name;
+        repoLink.dataset.repoName = repo.name;
 
-        // Create the repository name element
-        const repoName = document.createElement('span');
-        repoName.textContent = repo.name;
-
-        // Add event listener for single click (opens repo on GitHub)
+        // Open GitHub repo on single click
         repoLink.addEventListener('click', () => {
-          window.open(repo.html_url, '_blank'); // Opens GitHub repo page
+          window.open(repo.html_url, '_blank');
         });
 
-        // Add event listener for right-click (opens repo in the explorer pane)
-        repoLink.addEventListener('contextmenu', (event) => {
-          event.preventDefault(); // Prevent the default right-click menu
+        // Open repo contents on double-click
+        repoLink.addEventListener('dblclick', () => {
           loadRepoFiles(repo.name);
-          repoContent.style.display = 'block'; // Show the file explorer pane
+          repoContent.style.display = 'block';  // Show the content pane
         });
-
-        // Append the repo name to the repo item
-        repoLink.appendChild(repoName);
 
         repoList.appendChild(repoLink);
       });
@@ -45,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Load files and directories for the selected repository
   function loadRepoFiles(repoName, path = '') {
-    // Clear the repo content section when navigating to a new repo/folder
     repoContent.innerHTML = '<h3>Loading files...</h3>';
 
     fetch(`https://api.github.com/repos/FiverrrVRC/${repoName}/contents/${path}`)
@@ -76,9 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
           // If it's a directory, allow for folder navigation
           if (file.type === 'dir') {
             fileItem.addEventListener('click', () => loadRepoFiles(repoName, file.path));
-          } else {
-            // If it's a file, trigger a download when clicked
-            fileItem.addEventListener('click', () => downloadFile(file.download_url, file.name));
           }
 
           repoContent.appendChild(fileItem);
@@ -88,13 +74,5 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Error fetching files:', error);
         repoContent.textContent = 'Failed to load files.';
       });
-  }
-
-  // Function to download the file
-  function downloadFile(fileUrl, fileName) {
-    const link = document.createElement('a');
-    link.href = fileUrl;
-    link.download = fileName; // Set the download filename
-    link.click();
   }
 });
