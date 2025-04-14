@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   fetch('https://api.github.com/users/FiverrrVRC/repos')
     .then(response => response.json())
     .then(repos => {
-      const repoNames = new Set(); // Prevent duplicates
+      const repoNames = new Set();
       repos.forEach(repo => {
         if (repoNames.has(repo.name)) return;
         repoNames.add(repo.name);
@@ -62,25 +62,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     fetch(`https://api.github.com/repos/FiverrrVRC/${repoName}/contents/${path}`)
-      .then(response => response.json())
-      .then(files => {
-        const nestedList = document.createElement('div');
-        nestedList.className = 'file-list';
-
-        files.forEach(file => {
-          const nestedItem = document.createElement('div');
-          nestedItem.className = 'file-item';
-          nestedItem.textContent = (file.type === 'dir' ? '📁 ' : '📄 ') + file.name;
-          if (file.type === 'dir') {
-            nestedItem.addEventListener('click', (e) => {
-              e.stopPropagation();
-              toggleFolderContents(nestedItem, repoName, file.path);
-            });
-          }
-          nestedList.appendChild(nestedItem);
-        });
-
-        fileItem.insertAdjacentElement('afterend', nestedList);
-      });
-  }
-});
+      .then(response =>
