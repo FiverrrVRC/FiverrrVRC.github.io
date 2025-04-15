@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     historyStack.push(state);
     forwardStack = [];
     updateButtons();
+	repoContent.style.display = 'block';
 
     repoContent.style.display = 'block';
     repoContent.innerHTML = '<h3>Loading files...</h3>';

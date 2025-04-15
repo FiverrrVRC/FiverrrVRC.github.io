@@ -14,10 +14,9 @@ header, footer {
 
 main {
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+  flex-direction: column; /* Change from 'row' to 'column' */
+  align-items: center;
   padding: 2rem;
-  flex-wrap: wrap;
 }
 
 .file-explorer {
