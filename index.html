@@ -1,12 +1,12 @@
-=<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="A list of FiverrrVRC's GitHub repositories in a clean file explorer style." />
+  <meta name="description" content="A list of FiverrrVRC's GitHub repositories in a file explorer style." />
   <meta name="author" content="FiverrrVRC" />
   <title>FiverrrVRC Repositories</title>
-  <link rel="icon" href="icon.png" type="image/png">
+  <link rel="icon" type="image/png" href="icon.png" />
   <link rel="stylesheet" href="style.css" />
   <script src="script.js" defer></script>
 </head>
@@ -17,15 +17,18 @@
 
   <main>
     <div id="repo-list" class="file-explorer">
+      <!-- Repositories will be dynamically loaded here -->
     </div>
 
-<div id="repo-content" class="file-explorer hidden">
-  <div class="nav-buttons">
-    <button id="back-button" class="nav-button">&lt;</button>
-    <button id="forward-button" class="nav-button">&gt;</button>
-  </div>
-  <div id="file-view"></div>
-</div>
+    <div id="repo-controls" class="explorer-controls">
+      <button id="back-button">&lt;</button>
+      <button id="forward-button">&gt;</button>
+    </div>
+
+    <div id="repo-content" class="file-explorer hidden">
+      <!-- Files of a repository will be loaded here -->
+    </div>
+  </main>
 
   <footer>
     <p>&copy; 2025 FiverrrVRC. All rights reserved.</p>
