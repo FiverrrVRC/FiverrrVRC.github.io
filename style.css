@@ -55,6 +55,24 @@ main {
   background-color: #3b3b5c;
 }
 
+.repo-item span {
+  flex: 1;
+}
+
+.download-btn {
+  background-color: #3a3a4d;
+  color: #ffffffcc;
+  border: none;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.download-btn:hover {
+  background-color: #51517a;
+}
+
 .file-icon svg {
   fill: #ffffffcc;
 }
