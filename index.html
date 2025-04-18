@@ -8,20 +8,34 @@
   <title>FiverrrVRC Repositories</title>
   <link rel="icon" href="icon.png" type="image/png">
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="script.js" defer></script>
 </head>
 <body>
   <header>
     <h1>FiverrrVRC's GitHub Repositories</h1>
+    <button id="search-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.9 14.3h-.79l-.28-.27c1.16-1.5 1.82-3.43 1.82-5.23C16.65 5.33 13.34 2 9 2 4.66 2 1.35 5.33 1.35 9s3.31 7 7 7c2.06 0 3.94-.91 5.26-2.42l.27.27v.79l5 4.99L20.89 19l-4.99-5zM9 12c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3z"/></svg>
+      Search
+    </button>
   </header>
+
+  <div id="search-bar">
+    <input type="text" id="search-input" placeholder="Search repositories..." />
+    <span id="search-status">Type to search...</span>
+  </div>
 
   <main>
     <div id="repo-list" class="file-explorer"></div>
-    <div id="repo-content" class="file-explorer"></div>
+    <div class="file-explorer">
+      <div id="breadcrumbs"></div>
+      <div id="file-preview" class="file-preview"></div>
+      <div id="repo-content"></div>
+    </div>
   </main>
 
   <footer>
-    <p>&copy; Single click to open in the explorer, Double to open Repo.</p>
+    <p>&copy; 2025 FiverrrVRC. All rights reserved.</p>
   </footer>
 </body>
 </html>

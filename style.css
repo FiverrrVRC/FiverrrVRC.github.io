@@ -1,3 +1,4 @@
+/* Global Styles */
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -13,6 +14,7 @@ header {
   padding: 1rem;
   text-align: center;
   border-bottom: 1px solid #444;
+  position: relative;
 }
 
 h1 {
@@ -20,6 +22,80 @@ h1 {
   font-size: 1.8rem;
 }
 
+/* Search Button */
+#search-btn {
+  background-color: #3a3a4d;
+  color: #ffffff;
+  border: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+}
+
+#search-btn:hover {
+  background-color: #51517a;
+  transform: translateY(-50%) scale(1.02);
+}
+
+#search-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: #ffffff;
+}
+
+/* Search Bar */
+#search-bar {
+  display: none;
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #2b2b3d;
+  border: 1px solid #3a3a4d;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  width: 60%;
+  transition: opacity 0.3s;
+  z-index: 10;
+}
+
+#search-bar.active {
+  display: block;
+  opacity: 1;
+}
+
+#search-input {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: #1e1e2f;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  font-size: 0.9rem;
+}
+
+#search-input::placeholder {
+  color: #8a8a8a;
+}
+
+#search-status {
+  display: block;
+  margin-top: 0.5rem;
+  color: #8a8a8a;
+  font-size: 0.8rem;
+}
+
+/* Layout */
 main {
   display: flex;
   flex: 1;
@@ -39,48 +115,123 @@ main {
   background-color: #252536;
 }
 
+/* Hide preview until active */
+.file-preview {
+  display: none;
+  margin-bottom: 1rem;
+  max-height: 40vh;
+  overflow-y: auto;
+  background-color: #252536;
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #3a3a4d;
+}
+
+.file-preview.active {
+  display: block;
+}
+
+/* Preview styling */
+.file-preview img {
+  max-width: 100%;
+  border-radius: 4px;
+}
+
+.file-preview pre {
+  white-space: pre-wrap;
+  background-color: #1e1e2f;
+  padding: 0.6rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 0.85rem;
+}
+
+/* Compact Repo/File Items */
 .repo-item,
 .file-item {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem;
-  border-radius: 8px;
+  gap: 0.3rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s, transform 0.3s, opacity 0.5s;
+  opacity: 0;
+  transform: translateY(15px);
+  font-size: 0.9rem;
+}
+
+.repo-item:nth-child(even),
+.file-item:nth-child(even) {
+  animation: fadeIn 0.5s forwards 0.1s;
+}
+
+.repo-item:nth-child(odd),
+.file-item:nth-child(odd) {
+  animation: fadeIn 0.5s forwards 0.3s;
 }
 
 .repo-item:hover,
 .file-item:hover {
   background-color: #3b3b5c;
+  transform: translateX(4px);
 }
 
-.repo-item span {
-  flex: 1;
-}
-
+/* Download Button */
 .download-btn {
   background-color: #3a3a4d;
   color: #ffffffcc;
   border: none;
-  padding: 0.4rem 0.6rem;
-  border-radius: 6px;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, transform 0.2s;
+  font-size: 0.8rem;
 }
 
 .download-btn:hover {
   background-color: #51517a;
+  transform: scale(1.02);
 }
 
+/* Breadcrumbs */
+#breadcrumbs {
+  margin: 0.5rem 0;
+  font-size: 0.85rem;
+  color: #ccc;
+}
+
+.breadcrumb {
+  color: #0af;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.breadcrumb:hover {
+  color: #0cf;
+}
+
+/* Icons */
 .file-icon svg {
   fill: #ffffffcc;
+  width: 18px;
+  height: 18px;
 }
 
+/* Footer */
 footer {
   background-color: #2b2b3d;
   padding: 0.5rem;
   text-align: center;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   border-top: 1px solid #444;
+}
+
+/* Fade‑in Animation */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
