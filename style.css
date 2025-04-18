@@ -1,58 +1,68 @@
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #121212;
-  color: #ffffff;
   margin: 0;
-  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #1e1e2f;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
-header, footer {
-  background-color: #1f1f1f;
-  text-align: center;
+header {
+  background-color: #2b2b3d;
   padding: 1rem;
+  text-align: center;
+  border-bottom: 1px solid #444;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.8rem;
 }
 
 main {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2rem;
+  flex: 1;
+  overflow: hidden;
 }
 
 .file-explorer {
-  background-color: #1a1a1a;
-  border: 1px solid #333;
-  border-radius: 8px;
+  flex: 1;
   padding: 1rem;
-  width: 80%;
-  max-width: 1200px;
-  margin-bottom: 1rem;
+  overflow-y: auto;
+  background-color: #2b2b3d;
+  border-right: 1px solid #3a3a4d;
 }
 
-.hidden {
-  display: none;
+.file-explorer:last-child {
+  border-right: none;
+  background-color: #252536;
 }
 
-.repo-item, .file-item {
-  padding: 0.6rem 1rem;
-  margin-bottom: 0.4rem;
-  background-color: #222;
-  border-radius: 4px;
+.repo-item,
+.file-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
-  user-select: none;
+  transition: background-color 0.2s ease;
 }
 
-.repo-item:hover, .file-item:hover {
-  background-color: #2c2c2c;
-  color: #00bcd4;
+.repo-item:hover,
+.file-item:hover {
+  background-color: #3b3b5c;
 }
 
-.file-icon {
-  margin-right: 0.75rem;
+.file-icon svg {
+  fill: #ffffffcc;
 }
 
-footer p {
-  color: #bbb;
-  margin: 0;
+footer {
+  background-color: #2b2b3d;
+  padding: 0.5rem;
+  text-align: center;
+  font-size: 0.85rem;
+  border-top: 1px solid #444;
 }
