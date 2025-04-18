@@ -4,14 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const clickDelay = 300;
   let clickTimeout;
 
-  const token = 'ghp_xxxYourTokenHere'; // Replace this with your GitHub token
-
-  fetch('https://api.github.com/user/repos?per_page=100', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Accept: 'application/vnd.github+json'
-    }
-  })
+  fetch('https://api.github.com/users/FiverrrVRC/repos?per_page=100')
     .then(response => response.json())
     .then(repos => {
       repoList.innerHTML = '';
@@ -29,7 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
         downloadBtn.className = 'download-btn';
         downloadBtn.addEventListener('click', (e) => {
           e.stopPropagation();
-          const url = `https://github.com/${repo.owner.login}/${repo.name}/archive/refs/heads/${repo.default_branch}.zip`;
+          const branch = repo.default_branch || 'main';
+          const url = `https://github.com/${repo.owner.login}/${repo.name}/archive/refs/heads/${branch}.zip`;
           window.open(url, '_blank');
         });
 
@@ -60,12 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function loadRepoFiles(repoName, path = '') {
     repoContent.innerHTML = '<h3>Loading files...</h3>';
 
-    fetch(`https://api.github.com/repos/FiverrrVRC/${repoName}/contents/${path}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: 'application/vnd.github+json'
-      }
-    })
+    fetch(`https://api.github.com/repos/FiverrrVRC/${repoName}/contents/${path}`)
       .then(response => response.json())
       .then(files => {
         repoContent.innerHTML = '';
