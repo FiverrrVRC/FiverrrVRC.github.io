@@ -1,4 +1,3 @@
-/* Global Styles */
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -22,7 +21,6 @@ h1 {
   font-size: 1.8rem;
 }
 
-/* Search Button */
 #search-btn {
   background-color: #3a3a4d;
   color: #ffffff;
@@ -52,7 +50,6 @@ h1 {
   fill: #ffffff;
 }
 
-/* Search Bar */
 #search-bar {
   display: none;
   position: absolute;
@@ -95,7 +92,6 @@ h1 {
   font-size: 0.8rem;
 }
 
-/* Layout */
 main {
   display: flex;
   flex: 1;
@@ -115,7 +111,6 @@ main {
   background-color: #252536;
 }
 
-/* Hide preview until active */
 .file-preview {
   display: none;
   margin-bottom: 1rem;
@@ -131,7 +126,6 @@ main {
   display: block;
 }
 
-/* Preview styling */
 .file-preview img {
   max-width: 100%;
   border-radius: 4px;
@@ -146,7 +140,6 @@ main {
   font-size: 0.85rem;
 }
 
-/* Compact Repo/File Items */
 .repo-item,
 .file-item {
   display: flex;
@@ -177,7 +170,6 @@ main {
   transform: translateX(4px);
 }
 
-/* Download Button */
 .download-btn {
   background-color: #3a3a4d;
   color: #ffffffcc;
@@ -194,7 +186,6 @@ main {
   transform: scale(1.02);
 }
 
-/* Breadcrumbs */
 #breadcrumbs {
   margin: 0.5rem 0;
   font-size: 0.85rem;
@@ -212,14 +203,12 @@ main {
   color: #0cf;
 }
 
-/* Icons */
 .file-icon svg {
   fill: #ffffffcc;
   width: 18px;
   height: 18px;
 }
 
-/* Footer */
 footer {
   background-color: #2b2b3d;
   padding: 0.5rem;
@@ -228,7 +217,6 @@ footer {
   border-top: 1px solid #444;
 }
 
-/* Fade‑in Animation */
 @keyframes fadeIn {
   to {
     opacity: 1;

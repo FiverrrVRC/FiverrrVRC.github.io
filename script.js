@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let clickTimeout;
   let allRepos = [];
 
-  // Toggle search bar
   searchBtn.addEventListener('click', e => {
     e.stopPropagation();
     searchBar.classList.toggle('active');
@@ -19,14 +18,12 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSearchStatus();
   });
 
-  // Hide search bar when clicking outside
   document.addEventListener('click', e => {
     if (!searchBar.contains(e.target) && !searchBtn.contains(e.target)) {
       searchBar.classList.remove('active');
     }
   });
 
-  // Fetch repos
   fetch('https://api.github.com/users/FiverrrVRC/repos?per_page=100')
     .then(r => r.json())
     .then(repos => {
@@ -98,10 +95,9 @@ document.addEventListener('DOMContentLoaded', () => {
   function loadRepoFiles(repoName, path = '') {
     repoContent.innerHTML = '';
     filePreview.innerHTML = '';
-    filePreview.classList.remove('active');  // hide preview
+    filePreview.classList.remove('active');
     breadcrumbs.innerHTML = '';
 
-    // Breadcrumbs
     const parts = path.split('/').filter(Boolean);
     const root  = document.createElement('span');
     root.textContent = '📁 root';
@@ -118,7 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
       breadcrumbs.append(c);
     });
 
-    // List files & dirs
     fetch(`https://api.github.com/repos/FiverrrVRC/${repoName}/contents/${path}`)
       .then(r => r.json())
       .then(files => {
@@ -166,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           filePreview.innerHTML = `<pre>${text}</pre>`;
         }
-        filePreview.classList.add('active');  // show preview
+        filePreview.classList.add('active');
       })
       .catch(err => {
         console.error('Preview error:', err);
