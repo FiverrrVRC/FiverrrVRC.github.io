@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const dl = document.createElement('button');
       dl.className = 'download-btn';
-      dl.textContent = '⬇️';
+      dl.textContent = 'Download';
       dl.title = 'Download ZIP';
       dl.addEventListener('click', e => {
         e.stopPropagation();
